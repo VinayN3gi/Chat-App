@@ -2,10 +2,11 @@ import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from '
 import React, { useEffect, useState } from 'react'
 import { app ,auth} from '../firebaseConfig'
 import Header from '../components/Header'
-import { Input,Button } from 'react-native-elements'
+import { Input} from 'react-native-elements'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
 export default function LoginScreen({navigation}) {
+
     useEffect(()=>{
         navigation.setOptions({
             headerShown:false
@@ -33,6 +34,7 @@ export default function LoginScreen({navigation}) {
     {
         navigation.navigate("SignUp")
     }
+    auth.onAuthStateChanged(()=>{navigation.replace("Home")});
 
   return (
    <KeyboardAvoidingView behavior='padding'>
