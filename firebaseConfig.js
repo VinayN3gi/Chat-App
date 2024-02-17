@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-
+import {getAuth} from "firebase/auth";
 const firebaseConfig = {
     apiKey: "AIzaSyCLfspKykJ_Os3d2zRUlJobyfWqH3iVF8M",
     authDomain: "signal-clone-7d3e2.firebaseapp.com",
@@ -9,4 +9,5 @@ const firebaseConfig = {
     appId: "1:380261943303:web:5294bad0bcbbe3c4d902a2"
 };
 const app = initializeApp(firebaseConfig);
-export {app}
+const auth=getAuth(auth)
+export {app,auth}
