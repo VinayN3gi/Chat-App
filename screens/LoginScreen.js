@@ -34,7 +34,13 @@ export default function LoginScreen({navigation}) {
     {
         navigation.navigate("SignUp")
     }
-    auth.onAuthStateChanged(()=>{navigation.replace("Home")});
+    
+    auth.onAuthStateChanged((authUser)=>{
+        if(authUser)
+        {   
+         navigation.replace("Home")
+        }
+    });
 
   return (
    <KeyboardAvoidingView behavior='padding'>
