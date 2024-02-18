@@ -20,10 +20,6 @@ export default function ChatScreen({navigation}) {
               chatName:input
             });
             console.log("Document written with ID: ", docRef.id);
-            const querySnapshot = await getDocs(collection(db, "chats"));
-            querySnapshot.forEach((doc) => {
-            setData(data.push({id:doc.id,data:doc.data()}));
-            });
             navigation.navigate("Home",{value:data});
           } catch (e) {
             console.error("Error adding document: ", e);
