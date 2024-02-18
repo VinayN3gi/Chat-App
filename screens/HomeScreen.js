@@ -1,33 +1,45 @@
 import { View, Text, SafeAreaView, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Header from '../components/Header'
 import CustomListItem from '../components/CustomListItem';
 import { collection, getDocs } from "firebase/firestore"; 
 import { db } from '../firebaseConfig';
+import { useRoute } from '@react-navigation/native';
+import { Button } from 'react-native-elements';
 export default function HomeScreen({navigation}) {
   
+  const route=useRoute();
+  const value=route.params?.value;
+  const [chat,setChats]=useState([]);
+
+    const retrive= async function()
+    {
+        const querySnapshot = await getDocs(collection(db, "chats"));
+        querySnapshot.forEach((doc) => {
+        setData(data.push({id:doc.id,data:doc.data()}));
+        });
+        console.log(data)
+    }
+
+    useEffect(()=>{
+      if(value)
+      {
+        setChats(value);
+      }
+    },[value])
     
 
-
-  useEffect(()=>{
-    navigation.setOptions({headerShown:false})
-  },[])  
+    useLayoutEffect(()=>{
+        navigation.setOptions({headerShown:false})
+    },[])  
 
   
 
 
-  const onClick= async function()
+  const onClick= function()
   {
-    //navigation.navigate("Chat");
-    try{
-
-        const querySnapshot = await getDocs(collection(db, "chats"));
-        querySnapshot.forEach((doc) => {
-        console.log(doc.id,doc.data());
-        });
-    }catch(e){
-        alert(e)
-    }
+    navigation.navigate("Chat");
+    
   }
 
   return (
@@ -38,6 +50,7 @@ export default function HomeScreen({navigation}) {
         <TouchableOpacity onPress={onClick} className="bg-red-400 h-12 mt-4 rounded-lg w-80 items-center justify-center">
             <Text className=" text-xl ">Add</Text>
         </TouchableOpacity>
+        <Button onPress={()=>console.log(chat)}title="Click Me"></Button>
         </View>
     </KeyboardAvoidingView>
   )

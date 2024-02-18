@@ -3,14 +3,15 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import { Input } from 'react-native-elements'
 import { db } from '../firebaseConfig'
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc ,getDocs} from "firebase/firestore";
 
 export default function ChatScreen({navigation}) {
     useEffect(()=>{
         navigation.setOptions({headerShown:false})
     },[])
 
-    const [input,setInput]=useState("")
+    const [input,setInput]=useState("");
+    const [data,setData]=useState([]);
 
     const addChat= async function()
     {
@@ -19,7 +20,11 @@ export default function ChatScreen({navigation}) {
               chatName:input
             });
             console.log("Document written with ID: ", docRef.id);
-            navigation.goBack();
+            const querySnapshot = await getDocs(collection(db, "chats"));
+            querySnapshot.forEach((doc) => {
+            setData(data.push({id:doc.id,data:doc.data()}));
+            });
+            navigation.navigate("Home",{value:data});
           } catch (e) {
             console.error("Error adding document: ", e);
           }
