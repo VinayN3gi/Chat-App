@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, Keyboard } from 'react-native'
+import { View, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, Keyboard ,StyleSheet} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import Header from '../components/Header';
@@ -58,11 +58,19 @@ const MessageScreen = ({navigation}) => {
     return (
     <KeyboardAvoidingView className="flex-1">
         <Header title={title}/>
-        <ScrollView>
+        <ScrollView className=" pt-2">
           {
-            chats.map(({id,data})=><View key={id}>
-                <Text>{data.message}</Text>
-            </View>)
+            chats.map(({id,data})=>{
+              if (data.email===auth.currentUser.email) {
+                return(
+                  <Text style={styles.senderText}key={id}>{data.message}</Text>
+                )
+              } else {
+                return (
+                 <Text style={styles.reciversText} key={id}>{data.message}</Text>
+                )
+              }
+            })
           }
         </ScrollView>
         <View className="justify-center items-center">
@@ -78,4 +86,25 @@ const MessageScreen = ({navigation}) => {
   )
 }
 
+const styles = StyleSheet.create({
+  senderText:{
+    padding:15,
+    backgroundColor:"#ADD8E6",
+    alignSelf:"flex-start",
+    borderRadius:20,
+    margin:10,
+    maxWidth:"80%",
+    position:"relative"
+  },
+  reciversText:{
+    padding:15,
+    backgroundColor:"#FF7F7F",
+    alignSelf:"flex-end",
+    borderRadius:20,
+    marginRight:15,
+    marginBottom:10,
+    maxWidth:"80%",
+    position:"relative"
+  }
+})
 export default MessageScreen
