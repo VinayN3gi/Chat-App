@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import { useScrollToTop } from '@react-navigation/native'
 import { Input } from 'react-native-elements'
 import { auth } from '../firebaseConfig'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 export default function SignupScreen({navigation}) {
    
@@ -18,7 +18,8 @@ export default function SignupScreen({navigation}) {
 
   const signUp=function()
   {
-    createUserWithEmailAndPassword(auth,email,password).then(()=>console.log("Success")).catch((error)=>alert(error))
+    createUserWithEmailAndPassword(auth,email,password).then(()=>console.log("Success")).catch((error)=>alert(error));
+    
   }
 
   return (
